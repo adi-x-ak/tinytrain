@@ -155,4 +155,4 @@ class Trainer:
 
 
 def parameter_error(left: dict[str, Tensor], right: dict[str, Tensor]) -> float:
-    return max((left[name] - right[name]).abs().max().item() for name in left)
+    return torch.stack([(left[name] - right[name]).abs().max() for name in left]).max().item()

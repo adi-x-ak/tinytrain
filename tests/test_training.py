@@ -80,3 +80,9 @@ def test_evaluation_does_not_advance_training_sampler():
 def test_global_batch_must_divide_across_microbatches():
     with pytest.raises(ValueError, match="divide evenly"):
         Trainer(MODEL, replace(SETTINGS, accumulation_steps=3), TEXT)
+
+
+def test_parameter_comparison_cannot_hide_nonfinite_values():
+    good = {"first": torch.zeros(1), "second": torch.zeros(1)}
+    bad = {"first": torch.zeros(1), "second": torch.tensor([float("nan")])}
+    assert not parameter_error(good, bad) <= 1e-10

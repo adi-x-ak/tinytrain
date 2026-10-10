@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import math
 import socket
 import subprocess
 import sys
@@ -75,7 +76,10 @@ def main() -> None:
                 for index, state in expected["optimizer"]["state"].items()
                 for name, value in state.items()
             )
-            if max(errors[sync], optimizer_errors[sync]) > 1e-10:
+            if not all(
+                math.isfinite(error) and error <= 1e-10
+                for error in (errors[sync], optimizer_errors[sync])
+            ):
                 raise AssertionError(
                     f"{sync} diverged: weights={errors[sync]}, optimizer={optimizer_errors[sync]}"
                 )
