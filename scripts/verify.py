@@ -71,10 +71,16 @@ def main() -> None:
             )
             actual = torch.load(result, weights_only=True)
             errors[sync] = parameter_error(expected["model"], actual["model"])
-            optimizer_errors[sync] = max(
-                (value - actual["optimizer"]["state"][index][name]).abs().max().item()
-                for index, state in expected["optimizer"]["state"].items()
-                for name, value in state.items()
+            optimizer_errors[sync] = (
+                torch.stack(
+                    [
+                        (value - actual["optimizer"]["state"][index][name]).abs().max()
+                        for index, state in expected["optimizer"]["state"].items()
+                        for name, value in state.items()
+                    ]
+                )
+                .max()
+                .item()
             )
             if not all(
                 math.isfinite(error) and error <= 1e-10
