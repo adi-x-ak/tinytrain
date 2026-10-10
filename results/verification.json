@@ -1,0 +1,17 @@
+{
+  "torch_version": "2.14.1",
+  "dtype": "float64",
+  "world_size": 2,
+  "steps": 5,
+  "global_batch_size": 8,
+  "accumulation_steps": 2,
+  "tolerance": 1e-10,
+  "max_parameter_error": {
+    "manual": 1.1102230246251565e-16,
+    "ddp": 1.1102230246251565e-16
+  },
+  "max_optimizer_state_error": {
+    "manual": 1.3877787807814457e-17,
+    "ddp": 1.3877787807814457e-17
+  }
+}

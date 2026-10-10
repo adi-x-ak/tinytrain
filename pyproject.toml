@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tinytrain-lab"
+version = "0.1.0"
+description = "A small Transformer with verifiable training invariants."
+requires-python = ">=3.11"
+dependencies = ["torch>=2.8,<3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.12", "matplotlib>=3.9"]
+
+[project.scripts]
+tinytrain = "tinytrain.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
